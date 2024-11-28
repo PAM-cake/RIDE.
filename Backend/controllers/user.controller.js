@@ -2,6 +2,8 @@ const userModel = require('../models/user.model');
 const userService = require('../services/user.service')
 const { validationResult } = require('express-validator')
 
+
+//register controller//
 module.exports.registerUser = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -39,4 +41,28 @@ module.exports.registerUser = async (req, res, next) => {
     const token = newUser.generateAuthToken();
 
     res.status(201).json({ token, user: newUser });
+}
+
+//login controller//
+module.exports.loginUser =  async (req, res, next) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+
+    const user = await userModel.findOne({ email }).select("+password"); //to check the email entered exist or not //
+    if(!user){
+        return res.status(401).json({ message: 'Invalid email or password'})
+    }
+
+    const isMatch = await user.comparePassword(password)  //to check that password matched or not //
+    if(!isMatch){
+        return res.status(401).json({ message: 'Invalid email or password'})
+    }
+
+    const token = user.generateAuthToken();
+    res.status(200).json({token,user})
 }
