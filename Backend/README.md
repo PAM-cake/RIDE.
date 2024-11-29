@@ -69,3 +69,64 @@ The following fields are required in the request body for login:
   "password": "securepassword123"
 }
 ```
+
+## 4. **GET User Profile API**
+
+## Endpoint: `/users/profile`
+
+This endpoint allows the authenticated user to fetch their profile details. The user must be logged in and provide a valid authentication token for this request to succeed.
+
+---
+
+## HTTP Method:
+- `GET`
+
+## URL:
+- `/users/profile`
+
+---
+
+## Request Header:
+- **Authorization** (string, required): The authentication token (JWT) should be passed in the `Authorization` header as a Bearer token.
+
+## Example request header:
+
+---
+
+## Response:
+
+- **200 OK**: Returns the profile information of the authenticated user.
+
+### Example response body:
+
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "johndoe@example.com",
+  "password": "hashedpassword"
+}
+```
+
+
+
+## 5. **GET logout API**
+
+## Endpoint: `/users/logout`
+
+Logout the current user and blacklist the token provided in cookie or headers
+
+---
+
+## HTTP Method:
+- `GET`
+
+## URL:
+- `/users/logout`
+
+---
+
+## Request Header:
+- **Authorization** Requires a valid JWT token in the authorization header or cookie:
