@@ -130,3 +130,55 @@ Logout the current user and blacklist the token provided in cookie or headers
 
 ## Request Header:
 - **Authorization** Requires a valid JWT token in the authorization header or cookie:
+
+# Captain Registration API
+
+## Endpoint: `/captains/register`
+
+This endpoint allows captains to register by providing their personal details, including their full name, email, password, and vehicle information. Upon successful registration, a new captain is created, their password is hashed, and an authentication token is generated.
+
+---
+
+## HTTP Method:
+- `POST`
+
+## URL:
+- `/captains/register`
+
+---
+
+## Request Body:
+
+The following fields are required in the request body for the registration:
+
+- **fullname** (object): Contains the captain's first and last name.
+  - **firstName** (string, required): The captain's first name. Must be at least 3 characters long.
+  - **lastName** (string, required): The captain's last name. Must be at least 3 characters long.
+  
+- **email** (string, required): The captain's email address. Must be a valid email format.
+
+- **password** (string, required): The captain's password. Must be at least 6 characters long.
+
+- **vehicle** (object): Contains information about the captain's vehicle.
+  - **color** (string, required): The vehicle's color. Must be at least 3 characters long.
+  - **plate** (string, required): The vehicle's plate number. Must be at least 3 characters long.
+  - **capacity** (integer, required): The vehicle's capacity. Must be at least 1.
+  - **vehicleType** (string, required): The type of the vehicle. Must be one of 'car', 'motorcycle', or 'auto'.
+
+## Example request body:
+
+```json
+{
+  "fullname": {
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "email": "johndoe@example.com",
+  "password": "securepassword123",
+  "vehicle": {
+    "color": "red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}

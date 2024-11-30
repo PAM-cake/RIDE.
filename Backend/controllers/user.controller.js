@@ -14,6 +14,12 @@ module.exports.registerUser = async (req, res, next) => {
 
   const { fullname, email, password } = req.body;
 
+  const isUserAlreadyExist = await userModel.findOne({email});
+
+  if(isUserAlreadyExist){
+      return res.status(400).json({message: 'User already exist'})
+  }
+
   // Create a new user instance
   const user = new userModel({
     fullname: {
@@ -21,7 +27,7 @@ module.exports.registerUser = async (req, res, next) => {
       lastname: fullname.lastname,
     },
     email,
-    password,
+    password:hashedPassword,
   });
 
   // Now call the hashPassword method on the user instance
@@ -90,3 +96,4 @@ module.exports.logoutUser = async (req, res, next) => {
 
   res.status(200).json({ message: 'Logged out successfully' });
 };
+
