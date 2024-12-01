@@ -182,3 +182,47 @@ The following fields are required in the request body for the registration:
     "vehicleType": "car"
   }
 }
+```
+## 6. **GET Captain Profile API**
+
+### Endpoint: `/captains/profile`
+
+This endpoint allows an authenticated captain to retrieve their profile information. The captain must be logged in and provide a valid authentication token.
+
+---
+
+### HTTP Method:
+- `GET`
+
+### URL:
+- `/captains/profile`
+
+---
+
+### Request Header:
+- **Authorization** (string, required): The authentication token (JWT) should be passed in the `Authorization` header as a Bearer token.
+
+---
+
+### Response:
+
+- **200 OK**: Returns the profile information of the authenticated captain.
+
+#### Example response body:
+
+```json
+{
+  "captain": {
+    "fullname": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "johndoe@example.com",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
