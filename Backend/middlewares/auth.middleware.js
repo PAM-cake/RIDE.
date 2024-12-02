@@ -2,7 +2,7 @@ const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const blacklistTokenModel = require('../models/blacklistToken.model');  // Import blacklist token model
-const captainModel = require('../models/captain.model'); // Ensure the path is correct
+const captainModel = require('../models/captain.model'); // Ensure the path is correct`
 
 module.exports.authUser = async (req, res, next) => {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];  // Get the token from cookies or Authorization header
