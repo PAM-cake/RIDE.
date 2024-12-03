@@ -20,7 +20,7 @@ const Captainlogin = () => {
     <div className="flex flex-col justify-between h-screen p-7">
       <div>
         <img
-          className="w-16 mb-10"
+          className="w-20 mb-2"
           src="https://www.svgrepo.com/show/505031/uber-driver.svg"
           alt="logo"
         />
