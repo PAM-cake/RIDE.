@@ -8,8 +8,11 @@ const Home = () => {
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [panelOpen, setPanelOpen] = useState(false)
+  const vehiclePannelRef = useRef(null)
   const pannelRef = useRef(null)
   const panelCloseRef = useRef(null)
+  const [vehiclePannel, setVehiclePannel] = useState(false)
+  
   
   const submitHandler = () => {
     e.preventDefault();
@@ -37,14 +40,21 @@ const Home = () => {
    }
   },[panelOpen])
 
+  useGSAP(function(){
+    if(vehiclePannel){
+      gsap.to(vehiclePannelRef.current,{
+        transform:"translateY(0)"
+      })
+    }else{
+      gsap.to(vehiclePannelRef.current,{
+        transform:"translateY(100%)"
+      })
+    }
+  },[vehiclePannel])
+
   return (
     <div className="relative h-screen overflow-hiden">
-      <img
-        className="absolute w-16 left-5 top-5"
-        src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-        alt=""
-      />
-
+      <img className="absolute w-16 left-5 top-5" src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"alt=""/>
       <div className="w-screen h-screen">
         {/* //image for temporary use // */}
         <img
@@ -94,10 +104,11 @@ const Home = () => {
           </form>
         </div>
         <div ref={pannelRef} className="h-0 bg-white">
-            <LocationSearchPannel/>
+            <LocationSearchPannel setPanelOpen={setPanelOpen} setVehiclePannel={setVehiclePannel}/>
         </div>
       </div>
-      <div className="fixed bottom-0 z-10 w-full px-3 py-8 translate-y-full bg-white">
+      <div ref={vehiclePannelRef} className="fixed bottom-0 z-10 w-full px-3 py-8 translate-y-full bg-white">
+        <h5 className="absolute top-0 p-3 text-center"><i class="ri-arrow-down-wide-line"></i></h5>
         <h3 className="mb-5 text-xl font-semibold">Choose a Vehicle</h3>
         <div className="flex items-center justify-between w-full p-3 mb-2 border-4 active:border-black rounded-xl">
           <img className="h-12" src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_638,w_956/v1555367349/assets/d7/3d4b80-1a5f-4a8b-ac2b-bf6c0810f050/original/Final_XL.png" alt="" />
