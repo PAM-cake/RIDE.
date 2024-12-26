@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 
+// Captain home component
 const CaptainHome = () => {
   return (
     <div>CaptainHome</div>
   )
 }
 
-export default CaptainHome
+export default CaptainHome;
