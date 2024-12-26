@@ -1,12 +1,12 @@
 import React from 'react'
 
-const LookingForDriver = () => {
+const LookingForDriver = (props) => {
   return (
     <div>
     {/* Close button */}
     <h5
       className="absolute top-0 p-3 text-center transform -translate-x-1/2 left-1/2"
-      onClick={() => props.setVehiclePannel(false)}
+      onClick={() => props.setVehicleFound(false)}
     >
       <i className="text-gray-500 ri-arrow-down-wide-line"></i>
     </h5>
