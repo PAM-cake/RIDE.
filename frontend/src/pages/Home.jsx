@@ -22,7 +22,7 @@ const Home = () => {
   const [vehicleFound, setVehicleFound] = useState(false);
 
   // Handle form submission
-  const submitHandler = () => {
+  const submitHandler = (e) => {
     e.preventDefault();
   };
 
@@ -101,7 +101,7 @@ const Home = () => {
   );
 
   return (
-    <div className="relative h-screen overflow-hiden">
+    <div className="relative h-screen overflow-hidden">
       {/* Uber logo */}
       <img
         className="absolute w-16 left-5 top-5"
@@ -117,7 +117,7 @@ const Home = () => {
         />
       </div>
       <div className="absolute top-0 flex flex-col justify-end w-full h-screen">
-        <div className="h-[30%] p-6 bg-white relative">
+        <div className="relative h-auto p-6 bg-white">
           {/* Close panel button */}
           <h5
             ref={panelCloseRef}
@@ -159,12 +159,14 @@ const Home = () => {
           </form>
         </div>
         {/* Location search panel */}
-        <div ref={pannelRef} className="h-0 bg-white">
-          <LocationSearchPannel
-            setPanelOpen={setPanelOpen}
-            setVehiclePannel={setVehiclePannel}
-          />
-        </div>
+        {panelOpen && (
+          <div ref={pannelRef} className="h-0 bg-white">
+            <LocationSearchPannel
+              setPanelOpen={setPanelOpen}
+              setVehiclePannel={setVehiclePannel}
+            />
+          </div>
+        )}
       </div>
       {/* Vehicle panel */}
       <div
