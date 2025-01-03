@@ -22,7 +22,7 @@ const Home = () => {
   const [vehiclePannel, setVehiclePannel] = useState(false);
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
-  const [waitingForDriver, WaitingForDriver] = useState(false);
+  const [waitingForDriver, setWaitingForDriver] = useState(false);
 
   // Handle form submission
   const submitHandler = (e) => {
@@ -209,7 +209,7 @@ const Home = () => {
       <div
         ref={waitingForDriverRef}
         className="fixed bottom-0 z-20 w-full px-3 py-6 pt-12 bg-white">
-          <WaitingForDriver waitingForDriver={waitingForDriver}/>
+          <WaitingForDriver setWaitingForDriver={setWaitingForDriver}/>
       </div>
     </div>
   );
