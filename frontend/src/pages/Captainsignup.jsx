@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { CaptainDataContext } from '../context/CapatainContext'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { CaptainDataContext } from '../context/CapatainContext'
+import { UserDataContext } from "../context/UserContext";
 
 const Captainsignup = () => {
   
@@ -12,6 +12,7 @@ const Captainsignup = () => {
   const [password, setPassword] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
+  const [error, setError] = useState(""); // Add this line
 
   const [ vehicleColor, setVehicleColor ] = useState('')
   const [ vehiclePlate, setVehiclePlate ] = useState('')
@@ -19,7 +20,8 @@ const Captainsignup = () => {
   const [ vehicleType, setVehicleType ] = useState('')
 
 
-  const { captain, setCaptain } = React.useContext( CaptainDataContext)
+  const { captain, setCaptain } = useContext( CaptainDataContext)
+  const { setUser } = useContext(UserDataContext);
 
   //two way binding//
   const submitHandler = async (e) => {
@@ -172,7 +174,7 @@ const Captainsignup = () => {
         <button
           className='bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
         >Create Captain Account</button>
-
+        {error && <p className="error">{error}</p>} {/* Display error message */}
       </form>
       <p className='text-center'>Already have a account? <Link to='/captain-login' className='text-blue-600'>Login here</Link></p>
     </div>

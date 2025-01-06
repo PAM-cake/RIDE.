@@ -26,9 +26,16 @@ const UserSignup = () => {
         password,
       };
 
+      console.log("All environment variables:", import.meta.env);
+      const baseUrl = import.meta.env.VITE_BASE_URL;
+      console.log("VITE_BASE_URL:", baseUrl);
+      if (!baseUrl) {
+        throw new Error("VITE_BASE_URL is not defined");
+      }
+
       // API request to register the user
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/users/register`,
+        `${baseUrl}/users/register`,
         newUser
       );
 
@@ -37,7 +44,7 @@ const UserSignup = () => {
 
         // Save user data to context
         setUser(data.user);
-        localStorage.setItem("token",data.token)      //basically for useProtect wrapper stuff , if user reload the page the data will go away so instead of on user we are being depend on tokens !//
+        localStorage.setItem("token", data.token); //basically for useProtect wrapper stuff , if user reload the page the data will go away so instead of on user we are being depend on tokens !//
 
         // Redirect to home
         navigate("/home");
@@ -49,6 +56,7 @@ const UserSignup = () => {
         setLastName("");
       }
     } catch (error) {
+      console.error(error);
       // Handle errors from the server
       if (error.response) {
         setErrorMessage(error.response.data.message || "Registration failed!");
