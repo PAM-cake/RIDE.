@@ -45,3 +45,22 @@ module.exports.getDistanceTime = async (origin, destination) => {
         throw new Error('Error fetching distance and time');
     }
 }
+module.exports.getAutoCorrectSuggestions = async (input) => {
+    if(!input) {
+        throw new Error('Input is required');
+    }
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}`;
+
+    try {
+        const response = await axios.get(url);
+        if (response.data.status === 'OK') {
+            return response.data.predictions;
+        } else {
+            throw new Error('Unable to fetch suggestions');
+        }
+    } catch (error) {
+        console.error(error);
+        throw new Error('Error fetching suggestions');
+    }
+}
