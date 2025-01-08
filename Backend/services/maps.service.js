@@ -22,29 +22,38 @@ module.exports.getAddressCoordinates = async (address) => {
 };
 
 module.exports.getDistanceTime = async (origin, destination) => {
-    if(!origin || !destination) {
+    if (!origin || !destination) {
         throw new Error('Origin and destination are required');
     }
 
     const apiKey = process.env.GOOGLE_MAPS_API_KEY;
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
+
     try {
         const response = await axios.get(url);
         if (response.data.status === 'OK') {
-
-            if (response.data.rows[0].elements[0].status === 'NOT_FOUND') {
+            const element = response.data.rows[0].elements[0];
+            if (element.status === 'NOT_FOUND') {
                 throw new Error('Origin or destination not found');
             }
-            return response.data.rows[0].elements[0];
+
+            const distance = element.distance.value;  // distance in meters
+            const duration = element.duration.value;  // duration in seconds
+
+            return {
+                distance,
+                duration
+            };
         } else {
             throw new Error('Unable to fetch distance and time');
         }
-    }
-    catch (error) {
-        console.error(error);
+    } catch (error) {
+        console.error('Error fetching distance and time:', error);
         throw new Error('Error fetching distance and time');
     }
 }
+
+
 module.exports.getAutoCorrectSuggestions = async (input) => {
     if(!input) {
         throw new Error('Input is required');
