@@ -27,23 +27,23 @@ const ConfirmRide = (props) => {
           <div className="flex items-center gap-5 p-3 border-b-2">
             <i className="text-lg ri-map-pin-user-fill "></i>
             <div>
-              <h3 className="text-lg font-medium">7709/1960</h3>
-              <p className="-mt-1 text-sm text-gray-600">Umbhel Surat</p>
+              {/* <h3 className="text-lg font-medium">7709/1960</h3> */}
+              <p className="-mt-1 text-gray-800 text-lg font-medium">{props.pickup}</p>
             </div>
           </div>
           {/* Destination location */}
           <div className="flex items-center gap-5 p-3 border-b-2">
             <i className="text-lg ri-map-pin-2-fill "></i>
             <div>
-              <h3 className="text-lg font-medium">7709/1960</h3>
-              <p className="-mt-1 text-sm text-gray-600">Umbhel Surat</p>
+              {/* <h3 className="text-lg font-medium">7709/1960</h3> */}
+              <p className="-mt-1 text-gray-800 text-lg font-medium">{props.destination}</p>
             </div>
           </div>
           {/* Fare details */}
           <div className="flex items-center gap-5 p-3">
             <i className="text-lg ri-currency-line "></i>
             <div>
-              <h3 className="text-lg font-medium">₹150.00</h3>
+              <h3 className="text-lg font-medium">₹ {props.fare[props.vehicleType]}</h3>
               <p className="-mt-1 text-sm text-gray-600">Cash</p>
             </div>
           </div>
@@ -52,6 +52,7 @@ const ConfirmRide = (props) => {
         <button onClick={() => {
           props.setVehicleFound(true);
           props.setConfirmRidePanel(false);
+          props.createRide();
         }} className="w-full p-2 mt-5 font-semibold text-white bg-green-600 rounded-lg">
           <i className=" ri-check-line"></i>
           Confirm Ride

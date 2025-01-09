@@ -53,7 +53,6 @@ module.exports.getDistanceTime = async (origin, destination) => {
     }
 }
 
-
 module.exports.getAutoCorrectSuggestions = async (input) => {
     if(!input) {
         throw new Error('Input is required');
