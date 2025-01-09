@@ -4,7 +4,6 @@
 
 This endpoint allows users to register by providing their personal details, including their full name, email, and password. Upon successful registration, a new user is created, their password is hashed, and an authentication token is generated.
 
----
 
 ## HTTP Method:
 - `POST`
@@ -89,7 +88,7 @@ This endpoint allows the authenticated user to fetch their profile details. The 
 ## Request Header:
 - **Authorization** (string, required): The authentication token (JWT) should be passed in the `Authorization` header as a Bearer token.
 
-## Example request header:
+### Example request header:
 
 ---
 
@@ -225,4 +224,73 @@ This endpoint allows an authenticated captain to retrieve their profile informat
       "vehicleType": "car"
     }
   }
+}
+```
+
+## 7.  **Get Fare API**
+
+This endpoint allows users to get the fare estimate for a ride based on the pickup and destination locations.
+
+---
+
+### HTTP Method:
+- `GET`
+
+### URL:
+- `/rides/get-fare`
+
+---
+
+### Request Parameters:
+
+The following query parameters are required for the request:
+
+- **pickup** (string, required): The pickup location. Must be at least 3 characters long.
+- **destination** (string, required): The destination location. Must be at least 3 characters long.
+
+### Example request URL:
+
+---
+
+### Response:
+
+- **200 OK**: Returns the fare estimate for the ride.
+
+#### Example response body:
+
+```json
+{
+  "auto": 50.0,
+  "car": 75.0,
+  "moto": 40.0
+}
+```
+
+- **400 Bad Request**: If the request parameters are invalid.
+
+#### Example response body:
+
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Pickup Location",
+      "param": "pickup",
+      "location": "query"
+    },
+    {
+      "msg": "Invalid Destination Location",
+      "param": "destination",
+      "location": "query"
+    }
+  ]
+}
+
+- **500 Internal Server Error**: If there is an error processing the request.
+
+#### Example response body:
+
+```json
+{
+  "message": "Error message"
 }
