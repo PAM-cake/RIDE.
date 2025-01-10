@@ -27,6 +27,9 @@ const captainSchema = new mongoose.Schema({
     required: [true, "Password is required"],
     select: false
   },
+  socketId: {
+    type: String,
+  },
   vehicle: {
     color: {
       type: String,
@@ -64,6 +67,4 @@ captainSchema.methods.hashPassword = async function (password) {
   return await bcrypt.hash(password, 10);
 };
 
-const captainModel = mongoose.model('Captain', captainSchema);
-
-module.exports = captainModel;
+module.exports = mongoose.model('captain', captainSchema);

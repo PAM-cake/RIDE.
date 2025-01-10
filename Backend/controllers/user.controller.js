@@ -38,6 +38,8 @@ module.exports.registerUser = async (req, res, next) => {
     // Generate a token
     const token = user.generateAuthToken();
 
+    // console.log(user); // Remove or comment out this line if it exists
+
     res.status(201).json({ token, user });
   } catch (error) {
     console.error(error);
@@ -66,6 +68,7 @@ module.exports.loginUser = async (req, res, next) => {
     }
 
     const token = user.generateAuthToken();
+    // console.log(user); // Remove or comment out this line if it exists
     res.cookie("token", token);
     res.status(200).json({ token, user });
   } catch (error) {

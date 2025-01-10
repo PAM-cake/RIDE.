@@ -8,7 +8,9 @@ import VehiclePannel from "../components/VehiclePannel";
 import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
-
+import { SocketDataContext } from "../context/SocketContext";
+import { UserDataContext } from "../context/UserContext";
+import { useContext } from "react";
 
 // Home component
 const Home = () => {
@@ -29,6 +31,15 @@ const Home = () => {
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null)
+  const { socket } = useContext(SocketDataContext);
+  const { user } = useContext(UserDataContext);
+
+  useEffect(() => {
+    if(!user) return;
+
+    // console.log('User:', user);
+    socket.emit('join', { userType: 'user', userId: user._id  });
+  }, [ user ]);
 
   // Handle form submission
   const submitHandler = (e) => {
