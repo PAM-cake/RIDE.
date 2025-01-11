@@ -50,8 +50,12 @@ const captainSchema = new mongoose.Schema({
       type: String,
       required: [true, "Vehicle type is required"],
       enum: ['car', 'motorcycle', 'auto']
-    }
-  }
+    },
+  },
+  location: {    // Keeping location directly under the captain object
+    lat: { type: Number },
+    lng: { type: Number },
+  },
 });
 
 captainSchema.methods.generateAuthToken = function () {
