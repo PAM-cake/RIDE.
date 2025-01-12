@@ -52,9 +52,9 @@ const captainSchema = new mongoose.Schema({
       enum: ['car', 'motorcycle', 'auto']
     },
   },
-  location: {    // Keeping location directly under the captain object
-    lat: { type: Number },
-    lng: { type: Number },
+  location: {
+    type: { type: String, enum: ['Point'], default: 'Point' },
+    coordinates: { type: [Number], index: '2dsphere' }
   },
 });
 

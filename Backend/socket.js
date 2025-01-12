@@ -31,30 +31,30 @@ function initializeSocket(server) {
 
     socket.on("update-location-captain", async (data) => {
       const { userId, location } = data;
-    
+  
       if (!location || location.lat === undefined || location.lng === undefined) {
-        return socket.emit("error", "Invalid location data");
+          return socket.emit("error", "Invalid location data");
       }
-    
+  
       try {
-        // Update captain's location directly
-        await captainModel.findByIdAndUpdate(
-          userId,
-          {
-            $set: {
-              location: {
-                lat: location.lat,
-                lng: location.lng,
+          // Update captain's location directly
+          await captainModel.findByIdAndUpdate(
+              userId,
+              {
+                  $set: {
+                      location: {
+                          type: 'Point',
+                          coordinates: [location.lng, location.lat],
+                      },
+                  },
               },
-            },
-          },
-          { new: true } // Return the updated document for confirmation
-        );
-        console.log(`Location updated for captain ${userId}:`, location);
+              { new: true } // Return the updated document for confirmation
+          );
+          console.log(`Location updated for captain ${userId}:`, location);
       } catch (error) {
-        console.error(`Error updating location for captain ${userId}:`, error);
+          console.error(`Error updating location for captain ${userId}:`, error);
       }
-    });
+  });
 
     socket.on("disconnect", () => {
       console.log(`Client disconnected, ${socket.id}`);
@@ -62,9 +62,10 @@ function initializeSocket(server) {
   });
 }
 
-function sendMessageToSocketId(socketId, message) {
+function sendMessageToSocketId(socketId, messageObject) {
+  console.log(`Sending message to ${socketId}:`, messageObject);
   if (io) {
-    io.to(socketId).emit("message", message);
+    io.to(socketId).emit(messageObject.event, messageObject.data);
   } else {
     console.error("Socket.io is not initialized");
   }

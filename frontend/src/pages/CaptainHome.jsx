@@ -52,6 +52,13 @@ const CaptainHome = () => {
     return () => clearInterval(locationInterval);
   }, [captain, socket]);
 
+  socket.on('new-ride', (data) => {
+    console.log('New ride:', data);
+    // setRidePopupPanel(true);
+  }
+  
+  );
+
   useGSAP(
     function () {
       if (ridePopupPanel) {

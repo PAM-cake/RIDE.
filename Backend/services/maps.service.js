@@ -80,13 +80,12 @@ module.exports.getCaptainInTheRadius = async (lat, lng, radius) => {
     }
 
     const captains = await captainModel.find({
-        //query made by mongodb 
         location: {
             $geoWithin: {
-                $centerSphere: [[lng, lat], radius / 3963.2] // 3963.2 is the radius of the Earth in miles
+                $centerSphere: [[lng , lat], radius / 6371] // 6371 is the radius of the Earth in kilometers
             }
         }
     });
 
     return captains;
-}
+};
