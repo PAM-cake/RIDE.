@@ -12,6 +12,7 @@ import { SocketDataContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
 import { useContext } from "react";
 
+
 // Home component
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -31,15 +32,23 @@ const Home = () => {
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null)
+  const [ride,setRide] = useState(null)
+
   const { socket } = useContext(SocketDataContext);
   const { user } = useContext(UserDataContext);
-
+  
   useEffect(() => {
     if(!user) return;
 
     // console.log('User:', user);
     socket.emit('join', { userType: 'user', userId: user._id  });
   }, [ user ]);
+
+    socket.on('ride-confirmed', ride => {
+      setVehicleFound(false);
+      setWaitingForDriver(true);
+      setRide(ride)
+    });
 
   // Handle form submission
   const submitHandler = (e) => {
@@ -317,7 +326,11 @@ const Home = () => {
       <div
         ref={waitingForDriverRef}
         className="fixed bottom-0 z-20 w-full px-3 py-6 pt-12 bg-white">
-          <WaitingForDriver setWaitingForDriver={setWaitingForDriver}/>
+          <WaitingForDriver 
+          ride={ride}
+          setVehicleFound={setVehicleFound}
+          setWaitingForDriver={setWaitingForDriver}
+          waitingForDriver={waitingForDriver}/>
       </div>
     </div>
   );
