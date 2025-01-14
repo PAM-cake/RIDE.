@@ -1,33 +1,34 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useState,useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useState, useRef } from "react";
 import FinishRide from "../components/FinishRide";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 const CaptainRiding = () => {
+  const location = useLocation();
+  const rideData = location.state?.ride;
 
-    const [finishRidePanel, setFinishRidePanel] = useState(false)
-    const finishRidePanelRef = useRef(null);
-    
-    useGSAP(function () {
-        if(finishRidePanel){ 
-          gsap.to(finishRidePanelRef.current, {
-            transform: "translateY(0)",
-          });
-        } else {
-          gsap.to(finishRidePanelRef.current, {
-            transform: "translateY(100%)",
-          });
-        }
+  const [finishRidePanel, setFinishRidePanel] = useState(false);
+  const finishRidePanelRef = useRef(null);
+
+  useGSAP(
+    function () {
+      if (finishRidePanel) {
+        gsap.to(finishRidePanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(finishRidePanelRef.current, {
+          transform: "translateY(100%)",
+        });
       }
-      ,[finishRidePanel])
-
-      
+    },
+    [finishRidePanel]
+  );
 
   return (
     <div className="relative h-screen">
-      
       <div className="fixed flex items-center justify-between w-screen p-6">
         <img
           className="w-16 left-5 top-5"
@@ -49,20 +50,19 @@ const CaptainRiding = () => {
           alt=""
         />
       </div>
-      <div className="relative flex items-center justify-between p-6 bg-yellow-300 rounded-t-xl h-1/5"
-      onClick={()=>{
-            setFinishRidePanel(true)
-      }
-        }>
-      <h5
-        className="absolute top-0 p-3 text-center transform -translate-x-1/2 left-1/2"
+      <div
+        className="relative flex items-center justify-between p-6 bg-yellow-300 rounded-t-xl h-1/5"
         onClick={() => {
-          
+          setFinishRidePanel(true);
         }}
       >
-        <i className="text-2xl text-gray-900 ri-arrow-up-wide-line"></i>
-      </h5>
-        <h4 className="text-xl font-semibold">4 KM</h4>
+        <h5
+          className="absolute top-0 p-3 text-center transform -translate-x-1/2 left-1/2"
+          onClick={() => {}}
+        >
+          <i className="text-2xl text-gray-900 ri-arrow-up-wide-line"></i>
+        </h5>
+        <h4 className="text-xl font-semibold">{rideData?.distance} KM</h4>
         <button className="p-3 px-10 font-semibold text-white bg-green-600 rounded-lg">
           Complete
         </button>
@@ -72,7 +72,9 @@ const CaptainRiding = () => {
         ref={finishRidePanelRef}
         className="fixed bottom-0 z-10 w-full h-screen px-3 py-10 pt-12 translate-y-full bg-white"
       >
-        <FinishRide setFinishRidePanel={setFinishRidePanel} />
+        <FinishRide 
+        ride={rideData}
+        setFinishRidePanel={setFinishRidePanel} />
       </div>
     </div>
   );

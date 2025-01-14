@@ -1,7 +1,21 @@
 import React from "react";  
-import { Link } from "react-router-dom"; 
+import { Link, useLocation } from "react-router-dom"; 
+import { useEffect,useContext } from "react";
+import { SocketDataContext } from "../context/SocketContext";
+import { useNavigate } from "react-router-dom";
 
 const Riding = () => {        
+  const location = useLocation();
+  const { ride } = location.state || {};
+  const {socket} = useContext(SocketDataContext)
+  const navigate = useNavigate()
+
+  socket.on("ride-ended",()=>{
+    navigate('/home')
+  })
+
+  // console.log(ride); 
+
   return (
     <div className="h-screen"> 
       <Link to="/home" className="fixed flex items-center justify-center w-10 h-10 bg-white rounded-full top-5 right-5">
@@ -23,9 +37,9 @@ const Riding = () => {
             alt=""
           />
           <div className="text-right">
-            <h2 className="text-lg font-medium">Param</h2>
-            <h4 className="-mt-1 -mb-1 text-xl font-semibold">GJ05 JR 3340</h4>
-            <p className="text-sm text-gray-500">Volkswagen Vento</p>
+            <h2 className="text-lg font-medium capitalize">{ride?.captain.fullname.firstName + " " + ride?.captain.fullname.lastName}</h2>
+            <h4 className="-mt-1 -mb-1 text-xl font-semibold">{ride?.captain.vehicle.plate}</h4>
+            <p className="text-sm text-gray-500">Vento</p>
           </div>
         </div>
 
@@ -36,15 +50,15 @@ const Riding = () => {
             <div className="flex items-center gap-5 p-3 border-b-2">
               <i className="text-lg ri-map-pin-2-fill"></i>
               <div>
-                <h3 className="text-lg font-medium">7709/1960</h3>
-                <p className="-mt-1 text-sm text-gray-600">Umbhel Surat</p>
+                <h3 className="text-lg font-medium">1234</h3>
+                <p className="-mt-1 text-sm text-gray-600">{ride?.destination}</p>
               </div>
             </div>
             {/* Fare details */}
             <div className="flex items-center gap-5 p-3">
               <i className="text-lg ri-currency-line"></i>
               <div>
-                <h3 className="text-lg font-medium">₹150.00</h3>
+                <h3 className="text-lg font-medium">₹{ride?.fare}</h3>
                 <p className="-mt-1 text-sm text-gray-600">Cash</p>
               </div>
             </div>

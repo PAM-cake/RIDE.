@@ -1,27 +1,26 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopUp from "../components/RidePopUp";
+import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 import { SocketDataContext } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CapatainContext";
 import axios from "axios";
-
-
 
 // Captain home component
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const ridePopupPanelRef = useRef(null);
 
-  const [confrimridePopupPanel, setConfirmRidePopupPanel] = useState(false);
+  const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const confirmRidePopupPanelRef = useRef(null);
   const [ride, setRide] = useState(null);
 
   const { socket } = useContext(SocketDataContext);
   const { captain } = useContext(CaptainDataContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (captain) {
@@ -31,14 +30,6 @@ const CaptainHome = () => {
     const updateLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          console.log({
-            userId: captain._id,
-            location: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            },
-          });
-
           socket.emit("update-location-captain", {
             userId: captain._id,
             location: {
@@ -57,7 +48,6 @@ const CaptainHome = () => {
   }, [captain, socket]);
 
   socket.on("new-ride", (data) => {
-    console.log("New ride:", data);
     setRide(data);
     setRidePopupPanel(true);
   });
@@ -75,13 +65,11 @@ const CaptainHome = () => {
 
       setRidePopupPanel(false);
       setConfirmRidePopupPanel(true);
-      return response.data;
     } catch (error) {
       console.error("Error confirming ride:", error);
       setRidePopupPanel(false); // Ensure the popup panel closes on error
     }
   }
-
 
   useGSAP(
     function () {
@@ -100,7 +88,7 @@ const CaptainHome = () => {
 
   useGSAP(
     function () {
-      if (confrimridePopupPanel) {
+      if (confirmRidePopupPanel) {
         gsap.to(confirmRidePopupPanelRef.current, {
           transform: "translateY(0)",
         });
@@ -110,7 +98,7 @@ const CaptainHome = () => {
         });
       }
     },
-    [confrimridePopupPanel]
+    [confirmRidePopupPanel]
   );
 
   return (
@@ -144,7 +132,7 @@ const CaptainHome = () => {
         className="fixed bottom-0 z-10 w-full px-3 py-10 pt-12 translate-y-full bg-white"
       >
         <RidePopUp
-          ride={ride} 
+          ride={ride}
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
           confirmRide={confirmRide}
@@ -155,6 +143,7 @@ const CaptainHome = () => {
         className="fixed bottom-0 z-10 w-full h-screen px-3 py-10 pt-12 translate-y-full bg-white"
       >
         <ConfirmRidePopUp
+          ride={ride}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
           setRidePopupPanel={setRidePopupPanel}
         />

@@ -11,6 +11,7 @@ import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketDataContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 // Home component
@@ -33,6 +34,8 @@ const Home = () => {
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null)
   const [ride,setRide] = useState(null)
+  
+  const navigate = useNavigate()
 
   const { socket } = useContext(SocketDataContext);
   const { user } = useContext(UserDataContext);
@@ -49,6 +52,13 @@ const Home = () => {
       setWaitingForDriver(true);
       setRide(ride)
     });
+
+    socket.on('ride-started', ride => {
+      console.log("ride")
+      setWaitingForDriver(false)
+      navigate('/riding', { state: { ride } }) // Updated navigate to include ride data
+    })
+
 
   // Handle form submission
   const submitHandler = (e) => {
