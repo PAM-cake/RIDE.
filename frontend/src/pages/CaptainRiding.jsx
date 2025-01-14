@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import FinishRide from "../components/FinishRide";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import LiveTracking from "../components/LiveTracking";
 
 const CaptainRiding = () => {
   const location = useLocation();
@@ -44,11 +45,7 @@ const CaptainRiding = () => {
       </div>
 
       <div className="h-4/5">
-        <img
-          className="object-cover w-full h-full"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-          alt=""
-        />
+        <LiveTracking />
       </div>
       <div
         className="relative flex items-center justify-between p-6 bg-yellow-300 rounded-t-xl h-1/5"

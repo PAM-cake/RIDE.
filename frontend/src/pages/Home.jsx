@@ -12,6 +12,7 @@ import { SocketDataContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 
 // Home component
@@ -234,11 +235,7 @@ const Home = () => {
       />
       <div className="w-screen h-screen">
         {/* Background image */}
-        <img
-          className="object-cover w-full h-full"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-          alt=""
-        />
+       <LiveTracking />
       </div>
       <div className="absolute top-0 flex flex-col justify-end w-full h-screen">
         <div className="relative h-auto p-6 bg-white">
