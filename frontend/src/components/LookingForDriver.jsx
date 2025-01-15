@@ -1,5 +1,6 @@
 import React from "react";
 
+// Component to display the "Looking for a driver" panel
 const LookingForDriver = (props) => {
   return (
     <div>
@@ -24,7 +25,6 @@ const LookingForDriver = (props) => {
           <div className="flex items-center gap-5 p-3 border-b-2">
             <i className="text-lg ri-map-pin-user-fill "></i>
             <div>
-              {/* <h3 className="text-lg font-medium">7709/1960</h3> */}
               <p className="-mt-1 text-gray-800 text-lg font-medium">{props.pickup}</p>
             </div>
           </div>
@@ -32,7 +32,6 @@ const LookingForDriver = (props) => {
           <div className="flex items-center gap-5 p-3 border-b-2">
             <i className="text-lg ri-map-pin-2-fill "></i>
             <div>
-              {/* <h3 className="text-lg font-medium">7709/1960</h3> */}
               <p className="-mt-1 text-gray-800 text-lg font-medium">{props.destination}</p>
             </div>
           </div>

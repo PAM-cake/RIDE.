@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Component to display the "Waiting for a driver" panel
 const WaitingForDriver = (props) => {
   return (
     <div>
@@ -12,6 +13,7 @@ const WaitingForDriver = (props) => {
       </h5>
       
       <div className='flex items-center justify-between gap-2'>
+        {/* Vehicle image */}
         <img
           className="h-12"
           src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_638,w_956/v1555367349/assets/d7/3d4b80-1a5f-4a8b-ac2b-bf6c0810f050/original/Final_XL.png"
@@ -26,7 +28,6 @@ const WaitingForDriver = (props) => {
       </div>
       
       <div className="flex flex-col items-center justify-between gap-2">
-        {/* Vehicle image */}
         <div className="w-full mt-5">
           {/* Pickup location */}
           <div className="flex items-center gap-5 p-3 border-b-2">
