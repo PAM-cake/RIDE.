@@ -1,3 +1,5 @@
+//SERVER JS IS BASICALLY THE MAIN FILE THAT BOOT AND HANDLE SERVER RELATED STUFF.
+
 const http = require("http")
 const app = require("./app")
 const { initializeSocket } = require("./socket");

@@ -1,3 +1,5 @@
+//RIDE CONTROLLER BASICALLY HANDLE ALL THE RIDE RELATED STUFF FROM CREATING TO ENDING THE RIDE.
+
 // Import required modules and models
 const rideService = require('../services/ride.service');
 const { validationResult } = require('express-validator');

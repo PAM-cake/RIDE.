@@ -2,8 +2,10 @@
 const rideModel = require('../models/ride.model');
 const { sendMessageToSocketId } = require('../socket');
 const mapService = require('./maps.service');
-// const bcrypt = require('bcrypt'); not required instead; used crypto for generating tokens and otps!!// 
 const crypto = require('crypto');
+
+// Conversion rate from INR to USD
+const conversionRate = 75;
 
 // Calculate fare for a ride
 async function getFare(pickup, destination) {
@@ -20,37 +22,45 @@ async function getFare(pickup, destination) {
         throw new Error('Invalid distance or duration received');
     }
 
-    // Define base fare for each vehicle type
+    // Define base fare for each vehicle type in INR
     const baseFare = {
         auto: 30,
         car: 50,
         moto: 20
     };
 
-    // Define per kilometer rate for each vehicle type
+    // Define per kilometer rate for each vehicle type in INR
     const perKmRate = {
         auto: 10,
         car: 15,
         moto: 8
     };
 
-    // Define per minute rate for each vehicle type
+    // Define per minute rate for each vehicle type in INR
     const perMinuteRate = {
         auto: 2,
         car: 3,
         moto: 1.5
     };
 
-    // Calculate fare for each vehicle type
-    const fare = {
+    // Calculate fare for each vehicle type in INR
+    const fareInINR = {
         auto: Math.round(baseFare.auto + (distanceTime.distance / 1000 * perKmRate.auto) + (distanceTime.duration / 60 * perMinuteRate.auto)),
         car: Math.round(baseFare.car + (distanceTime.distance / 1000 * perKmRate.car) + (distanceTime.duration / 60 * perMinuteRate.car)),
         moto: Math.round(baseFare.moto + (distanceTime.distance / 1000 * perKmRate.moto) + (distanceTime.duration / 60 * perMinuteRate.moto))
     };
 
-    // Return the calculated fare
-    return fare;
+    // Convert fare to USD
+    const fareInUSD = {
+        auto: (fareInINR.auto / conversionRate).toFixed(2),
+        car: (fareInINR.car / conversionRate).toFixed(2),
+        moto: (fareInINR.moto / conversionRate).toFixed(2)
+    };
+
+    // Return the calculated fare in USD
+    return fareInUSD;
 }
+
 module.exports.getFare = getFare;
 
 // Generate OTP for ride using crypto

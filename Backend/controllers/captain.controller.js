@@ -1,10 +1,11 @@
-// Import required modules and models
+//CAPTAIN CONTROLLER BASICALLY HANDLE ALL THE CAPRAIN'S AUTHENTICATION RELEATED STUFF
+
 const { validationResult } = require('express-validator');
 const captainModel = require('../models/captain.model');
 const bcrypt = require('bcrypt');
 const blacklistTokenModel = require('../models/blacklistToken.model');
 
-// Register Captain
+// Register Captain -> VALIDATION, CHECKING WHETHER IT ALREADY EXISTS OR NOT, IF NOT CREATE ACCOUNT BASED ON SCHEMA, AND GENERATE TOKEN, AND SAVE IT TO DB.
 module.exports.registerCaptain = async (req, res, next) => {
   // Validate request
   const errors = validationResult(req);

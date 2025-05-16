@@ -1,3 +1,5 @@
+//SOCKET JS FILE BASICALLY HANDLE ALL THE SOCKET CONNECTION BETWEEN THE USER AND CAPTAIN FOR END TO END COMMUNITION AND DATA TRANSFER.
+
 // Import required modules and models
 const socketIo = require("socket.io");
 const userModel = require("./models/user.model");

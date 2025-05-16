@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -10,13 +10,12 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketDataContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import LiveTracking from "../components/LiveTracking";
 
-
 // Home component
 const Home = () => {
+  // State variables
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [panelOpen, setPanelOpen] = useState(false);
@@ -44,28 +43,28 @@ const Home = () => {
   useEffect(() => {
     if(!user) return;
 
-    // console.log('User:', user);
+    // Join socket room
     socket.emit('join', { userType: 'user', userId: user._id  });
   }, [ user ]);
 
-    socket.on('ride-confirmed', ride => {
-      setVehicleFound(false);
-      setWaitingForDriver(true);
-      setRide(ride)
-    });
+  // Socket event listeners
+  socket.on('ride-confirmed', ride => {
+    setVehicleFound(false);
+    setWaitingForDriver(true);
+    setRide(ride)
+  });
 
-    socket.on('ride-started', ride => {
-      console.log("ride")
-      setWaitingForDriver(false)
-      navigate('/riding', { state: { ride } }) // Updated navigate to include ride data
-    })
-
+  socket.on('ride-started', ride => {
+    setWaitingForDriver(false)
+    navigate('/riding', { state: { ride } }) // Updated navigate to include ride data
+  })
 
   // Handle form submission
   const submitHandler = (e) => {
     e.preventDefault();
   };
 
+  // Handle pickup location change
   const handlePickupChange = async (e) => {
     const value = e.target.value;
     setPickup(value);
@@ -84,6 +83,7 @@ const Home = () => {
     }
   };
 
+  // Handle destination location change
   const handleDestinationChange = async (e) => {
     const value = e.target.value;
     setDestination(value);
@@ -192,6 +192,7 @@ const Home = () => {
     [waitingForDriver]
   );
 
+  // Find trip function
   async function findTrip() {
     setPanelOpen(false);
     setVehiclePannel(true);
@@ -203,13 +204,13 @@ const Home = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
       });
-      console.log('Fare response:', response.data);
       setFare(response.data); // Set the fare state with the response data
     } catch (error) {
       console.error('Error fetching fare:', error.response ? error.response.data : error.message);
     }
   }
 
+  // Create ride function
   async function createRide() {
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
       pickup,
@@ -221,8 +222,6 @@ const Home = () => {
       }
     })
     console.log(response.data);
-    
-  
   }
 
   return (
@@ -330,6 +329,7 @@ const Home = () => {
            createRide={createRide}
            setVehicleFound={setVehicleFound} />
       </div>
+      {/* Waiting for driver panel */}
       <div
         ref={waitingForDriverRef}
         className="fixed bottom-0 z-20 w-full px-3 py-6 pt-12 bg-white">

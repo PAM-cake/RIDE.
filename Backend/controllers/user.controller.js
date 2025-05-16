@@ -1,3 +1,5 @@
+//USER CONTROLLER BASICALLY HANDLE ALL THE USER RELATED STUFF FROM CREATING TO ENDING THE RIDE.
+
 // Import required modules and models
 const userModel = require("../models/user.model");
 const userService = require("../services/user.service");

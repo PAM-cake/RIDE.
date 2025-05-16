@@ -1,3 +1,6 @@
+
+//MAP CONTROLLER BASICALLY HANDLE ALL THE DISTANCE AND TIME CALCULATION RELATED STUFF.
+
 // Import required modules and services
 const mapService = require('../services/maps.service');
 const { validationResult } = require('express-validator');

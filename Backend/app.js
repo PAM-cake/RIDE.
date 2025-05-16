@@ -1,3 +1,5 @@
+//APP JS IS BASICALLY THE MAIN FILE THAT BOOT AND HANDLE ALL THE APP RELATED STUFF.
+
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");

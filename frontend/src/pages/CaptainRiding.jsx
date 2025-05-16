@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import LiveTracking from "../components/LiveTracking";
 
+// CaptainRiding component
 const CaptainRiding = () => {
   const location = useLocation();
   const rideData = location.state?.ride;
@@ -13,6 +14,7 @@ const CaptainRiding = () => {
   const [finishRidePanel, setFinishRidePanel] = useState(false);
   const finishRidePanelRef = useRef(null);
 
+  // GSAP animations for finish ride panel
   useGSAP(
     function () {
       if (finishRidePanel) {
@@ -30,6 +32,7 @@ const CaptainRiding = () => {
 
   return (
     <div className="relative h-screen">
+      {/* Header with Uber logo and logout button */}
       <div className="fixed flex items-center justify-between w-screen p-6">
         <img
           className="w-16 left-5 top-5"
@@ -44,9 +47,11 @@ const CaptainRiding = () => {
         </Link>
       </div>
 
+      {/* Live tracking */}
       <div className="h-4/5">
         <LiveTracking />
       </div>
+      {/* Ride details and complete button */}
       <div
         className="relative flex items-center justify-between p-6 bg-yellow-300 rounded-t-xl h-1/5"
         onClick={() => {
@@ -65,6 +70,7 @@ const CaptainRiding = () => {
         </button>
       </div>
 
+      {/* Finish ride panel */}
       <div
         ref={finishRidePanelRef}
         className="fixed bottom-0 z-10 w-full h-screen px-3 py-10 pt-12 translate-y-full bg-white"

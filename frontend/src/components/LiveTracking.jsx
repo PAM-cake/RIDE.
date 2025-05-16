@@ -3,7 +3,7 @@ import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
     width: '100%',
-    height: '100vh', // Make sure the map takes visible space
+    height: '100vh', // Ensure the map takes visible space
 };
 
 const LiveTracking = () => {
