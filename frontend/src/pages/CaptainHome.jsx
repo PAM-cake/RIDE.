@@ -6,8 +6,10 @@ import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SocketDataContext } from "../context/SocketContext";
-import { CaptainDataContext } from "../context/CapatainContext";
+import { CaptainDataContext } from "../context/CaptainContext";
 import axios from "axios";
+import Map from "../components/Map";
+import LiveTracking from "../components/LiveTracking"; // Add this import
 
 // Captain home component
 const CaptainHome = () => {
@@ -117,14 +119,11 @@ const CaptainHome = () => {
         </Link>
       </div>
 
-      <div className="h-3/5">
-        <img
-          className="object-cover w-full h-full"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-          alt=""
-        />
+      {/* Replace GIF with live map view */}
+      <div className="h-3/5 relative z-0">
+        <LiveTracking className="h-full w-full rounded-xl z-0" />
       </div>
-      <div className="p-6 h-2/5">
+      <div className="p-6 h-2/5 relative z-10">
         <CaptainDetails />
       </div>
       <div

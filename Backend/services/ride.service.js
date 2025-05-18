@@ -57,8 +57,12 @@ async function getFare(pickup, destination) {
         moto: (fareInINR.moto / conversionRate).toFixed(2)
     };
 
-    // Return the calculated fare in USD
-    return fareInUSD;
+    // Return the calculated fare in USD, and also distance and duration
+    return {
+        ...fareInUSD,
+        distance: distanceTime.distance,
+        duration: distanceTime.duration
+    };
 }
 
 module.exports.getFare = getFare;
@@ -80,8 +84,8 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
         throw new Error('User, pickup, destination and vehicleType are required');
     }
 
-    // Calculate fare for the ride
-    const fare = await getFare(pickup, destination);
+    // Calculate fare for the ride (now includes distance/duration)
+    const fareData = await getFare(pickup, destination);
 
     // Create a new ride object
     const ride = new rideModel({
@@ -89,7 +93,9 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
         pickup,
         destination,
         otp: getOtp(6),
-        fare: fare[vehicleType]
+        fare: fareData[vehicleType],
+        distance: fareData.distance,
+        duration: fareData.duration
     });
 
     // Save the ride to the database
@@ -101,90 +107,48 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
 
 // Confirm a ride
 module.exports.confirmRide = async ({ rideId, captain }) => {
-    // Check if ride ID is provided
     if (!rideId) {
         throw new Error('Ride Id is required');
     }
-
-    // Update the ride status to 'accepted' and assign the captain
     await rideModel.findOneAndUpdate({ _id: rideId }, { status: 'accepted', captain: captain._id });
-
-    // Find the ride and populate user and captain information
     const ride = await rideModel.findOne({ _id: rideId }).populate('user').populate('captain').select("+otp");
     if (!ride) {
         throw new Error('Ride not found');
     }
-
-    // Return the confirmed ride
     return ride;
-}
+};
 
 // Start a ride
 module.exports.startRide = async ({ rideId, otp, captain }) => {
-    // Check if ride ID and OTP are provided
     if (!rideId || !otp) {
         throw new Error('Ride id and OTP are required');
     }
-
-    // Find the ride and populate user and captain information
-    const ride = await rideModel.findOne({
-        _id: rideId
-    }).populate('user').populate('captain').select('+otp');
-
+    const ride = await rideModel.findOne({ _id: rideId }).populate('user').populate('captain').select('+otp');
     if (!ride) {
         throw new Error('Ride not found');
     }
-
-    // Check if the ride status is 'accepted'
     if (ride.status !== 'accepted') {
         throw new Error('Ride not accepted');
     }
-
-    // Check if the provided OTP matches the ride OTP
     if (ride.otp !== otp) {
         throw new Error('Invalid OTP');
     }
-
-    // Update the ride status to 'ongoing'
-    await rideModel.findOneAndUpdate({
-        _id: rideId
-    }, {
-        status: 'ongoing'
-    })
-
-    // Return the started ride
+    await rideModel.findOneAndUpdate({ _id: rideId }, { status: 'ongoing' });
     return ride;
-}
+};
 
 // End a ride
 module.exports.endRide = async ({ rideId, captain }) => {
-    // Check if ride ID is provided
     if (!rideId) {
         throw new Error('Ride id is required');
     }
-
-    // Find the ride and populate user and captain information
-    const ride = await rideModel.findOne({
-        _id: rideId,
-        captain: captain._id
-    }).populate('user').populate('captain');
-
+    const ride = await rideModel.findOne({ _id: rideId, captain: captain._id }).populate('user').populate('captain');
     if (!ride) {
         throw new Error('Ride not found');
     }
-
-    // Check if the ride status is 'ongoing'
     if (ride.status !== 'ongoing') {
         throw new Error('Ride is not ongoing');
     }
-
-    // Update the ride status to 'completed'
-    await rideModel.findOneAndUpdate({
-        _id: rideId
-    }, {
-        status: 'completed'
-    });
-
-    // Return the completed ride
+    await rideModel.findOneAndUpdate({ _id: rideId }, { status: 'completed' });
     return ride;
-}
+};

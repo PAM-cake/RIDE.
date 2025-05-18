@@ -53,4 +53,20 @@ router.post('/end-ride',
     rideController.endRide
 );
 
+// Get all completed rides for the current captain
+router.get('/captain/completed',
+    authMiddleware.authCaptain,
+    async (req, res) => {
+        try {
+            const rides = await require('../models/ride.model').find({
+                captain: req.captain._id,
+                status: 'completed'
+            });
+            res.json(rides);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+);
+
 module.exports = router;

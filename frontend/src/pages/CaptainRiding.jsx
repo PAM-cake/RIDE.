@@ -64,7 +64,13 @@ const CaptainRiding = () => {
         >
           <i className="text-2xl text-gray-900 ri-arrow-up-wide-line"></i>
         </h5>
-        <h4 className="text-xl font-semibold">{rideData?.distance} KM</h4>
+        <h4 className="text-xl font-semibold">
+          {typeof rideData?.distance === "number"
+            ? `${(rideData.distance / 1609.34).toFixed(2)} mi`
+            : rideData?.distance
+            ? `${(Number(rideData.distance) / 1609.34).toFixed(2)} mi`
+            : "-- mi"}
+        </h4>
         <button className="p-3 px-10 font-semibold text-white bg-green-600 rounded-lg">
           Complete
         </button>
@@ -75,9 +81,10 @@ const CaptainRiding = () => {
         ref={finishRidePanelRef}
         className="fixed bottom-0 z-10 w-full h-screen px-3 py-10 pt-12 translate-y-full bg-white"
       >
-        <FinishRide 
-        ride={rideData}
-        setFinishRidePanel={setFinishRidePanel} />
+        <FinishRide
+          ride={rideData}
+          setFinishRidePanel={setFinishRidePanel}
+        />
       </div>
     </div>
   );

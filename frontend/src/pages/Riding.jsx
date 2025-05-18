@@ -47,7 +47,14 @@ const Riding = () => {
             <div className="flex items-center gap-5 p-3 border-b-2">
               <i className="text-lg ri-map-pin-2-fill"></i>
               <div>
-                <h3 className="text-lg font-medium">1234</h3>
+                {/* Remove static 1234, show distance */}
+                <h3 className="text-lg font-medium">
+                  {typeof ride?.distance === "number"
+                    ? `${(ride.distance / 1609.34).toFixed(2)} mi`
+                    : ride?.distance
+                      ? `${(Number(ride.distance) / 1609.34).toFixed(2)} mi`
+                      : "-- mi"}
+                </h3>
                 <p className="-mt-1 text-sm text-gray-600">{ride?.destination}</p>
               </div>
             </div>
