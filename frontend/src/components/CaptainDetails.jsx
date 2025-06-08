@@ -1,3 +1,5 @@
+// This component displays the details of a captain, including their earnings, drive time, average speed, and total rides. It fetches the data from an API and updates the state accordingly.
+// It also formats the drive time into hours and minutes for better readability.
 import React, { useContext, useEffect, useState } from "react";
 import { CaptainDataContext } from "../context/CaptainContext";
 import axios from "axios";
@@ -12,10 +14,10 @@ const CaptainDetails = () => {
     async function fetchEarningsAndDuration() {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/rides/captain/completed`,
+          `${import.meta.env.VITE_BASE_URL}/rides/captain/completed`, // Adjust the endpoint as needed
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`, // Let the token be validated in backend
             },
           }
         );
