@@ -9,9 +9,5 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "env": {
-    "VITE_BASE_URL": "@vite_base_url",
-    "VITE_GOOGLE_MAPS_API": "@vite_google_maps_api"
-  }
+  ]
 }
