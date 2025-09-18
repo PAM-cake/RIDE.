@@ -24,6 +24,8 @@ const CaptainHome = () => {
   const { captain } = useContext(CaptainDataContext);
   const navigate = useNavigate();
 
+  console.log("CaptainHome - Captain data:", captain);
+
   useEffect(() => {
     if (captain) {
       socket.emit("join", { userId: captain._id, userType: "captain" });

@@ -59,7 +59,7 @@ const CaptainDetails = () => {
             alt=""
           />
           <h4 className="text-lg font-medium capitalize">
-            {captain.fullname.firstName + " " + captain.fullname.lastName}
+            {captain?.fullname?.firstName + " " + captain?.fullname?.lastName || "Loading..."}
           </h4>
         </div>
         <div>

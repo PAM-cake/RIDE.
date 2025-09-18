@@ -10,7 +10,7 @@ const CaptainLogout = () => {
     if (token) {
       // Send logout request to the server
       axios
-        .get(`${import.meta.env.VITE_API_URL}/captains/logout`, {
+        .get(`${import.meta.env.VITE_BASE_URL}/captains/logout`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -33,11 +33,15 @@ const UserSignup = () => {
         throw new Error("VITE_BASE_URL is not defined");
       }
 
+      console.log("Attempting registration with:", newUser);
+
       // API request to register the user
       const response = await axios.post(
         `${baseUrl}/users/register`,
         newUser
       );
+      
+      console.log("Registration response:", response.data);
 
       if (response.status === 201) {
         const data = response.data;

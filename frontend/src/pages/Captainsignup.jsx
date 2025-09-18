@@ -36,13 +36,18 @@ const Captainsignup = () => {
       vehicle: {
         color: vehicleColor,
         plate: vehiclePlate,
-        capacity: vehicleCapacity,
-        vehicleType: vehicleType
+        capacity: parseInt(vehicleCapacity),
+        vehicleType: vehicleType === 'moto' ? 'motorcycle' : vehicleType
       }
     };
+
+    console.log("Attempting captain registration with:", captainData);
+    console.log("Base URL:", import.meta.env.VITE_BASE_URL);
   
     try {
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData);
+      console.log("Captain registration response:", response.data);
+      
       if (response.status === 201) {
         const data = response.data;
         setCaptain(data.captain);
@@ -50,8 +55,8 @@ const Captainsignup = () => {
         navigate("/captain-home");
       }
     } catch (err) {
-      console.error(err);
-      setError("Error occurred during registration. Please try again.");
+      console.error("Captain registration failed:", err);
+      setError(err.response?.data?.message || "Error occurred during registration. Please try again.");
     }
   
     // Clear the form fields after submission
@@ -174,7 +179,7 @@ const Captainsignup = () => {
         <button
           className='bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
         >Create Captain Account</button>
-        {error && <p className="error">{error}</p>} {/* Display error message */}
+        {error && <p className="text-red-500 text-sm mb-3">{error}</p>} {/* Display error message */}
       </form>
       <p className='text-center'>Already have a account? <Link to='/captain-login' className='text-blue-600'>Login here</Link></p>
     </div>

@@ -17,8 +17,12 @@ const UserLogin = () => {
       password: password,
     };
 
+    console.log("Attempting login with:", userData);
+    console.log("Base URL:", import.meta.env.VITE_BASE_URL);
+
     try {
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData);
+      console.log("Login response:", response.data);
 
       if (response.status === 200) {
         const data = response.data;
@@ -28,7 +32,7 @@ const UserLogin = () => {
       }
     } catch (error) {
       console.error("Login failed:", error);
-      // Optionally handle error (e.g., display a message)
+      alert("Login failed: " + (error.response?.data?.message || error.message));
     }
 
     // Clear input fields after submission
